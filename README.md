@@ -1,16 +1,9 @@
-# Tabbit2API
-
-> 把 **Tabbit 浏览器**内置的 AI 聊天功能,变成一个**标准 OpenAI API**,让你不用开浏览器就能调用里面的 Claude、GPT、Gemini 等模型。
+# Tabbit-toy
 
 ## 这是什么
 
 [Tabbit](https://tabbit.ai) 是一款基于 Chromium 的国产 AI 浏览器,内置了 21 个 AI 模型(Claude-Opus-4.8、GPT-5.5、Gemini-3.5-Flash、DeepSeek-V4-Pro 等)。正常情况下你必须**打开 Tabbit 浏览器**才能用这些模型。
 
-**本项目做的事**:逆向了 Tabbit 浏览器和它后端(`web.tabbit.ai`)的通信协议,在本地起一个服务,把"标准 OpenAI 格式的请求"翻译成"Tabbit 能懂的请求"再转发,这样你就能:
-
-- ✅ 不开浏览器,命令行 / 代码直接调用
-- ✅ 接入任何 OpenAI 兼容客户端(Cherry Studio / NextChat / LangChain / OpenAI SDK)
-- ✅ 像用 OpenAI 官方 API 一样用 Tabbit 的模型
 
 ```
 你的客户端 ──OpenAI格式──▶ Tabbit2API(本地服务) ──翻译+签名──▶ web.tabbit.ai
