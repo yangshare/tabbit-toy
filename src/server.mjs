@@ -12,9 +12,14 @@
 import { createServer } from 'node:http';
 import { randomUUID } from 'node:crypto';
 import { config } from './config.mjs';
+import { setupProxy } from './proxy.mjs';
 import {
   DEFAULT_SIGN_KEY, fetchSignKey, getModels, fetchSessionList, chat, TabbitError,
 } from '../scripts/lib/tabbit.mjs';
+
+// 进程启动时设置出站代理（必须在第一次 fetch 之前）
+// 解决 Tabbit 按出口 IP 的地域封锁（403 Service Unavailable in Your Region）
+const proxyOn = setupProxy(config.proxy);
 
 // ─── 状态缓存 ─────────────────────────────────────────────
 let signKey = config.signKey || DEFAULT_SIGN_KEY;
@@ -259,6 +264,7 @@ server.listen(config.port, () => {
   console.log(' Tabbit2API · OpenAI 兼容代理');
   console.log(`  端口: ${config.port}`);
   console.log(`  鉴权: ${config.apiKey ? '已开启 (Bearer ' + config.apiKey.slice(0, 4) + '…)' : '未开启'}`);
+  console.log(`  代理: ${proxyOn ? config.proxy : '未启用（直连，可能被地域封锁）'}`);
   console.log(`  版本: ${config.version}`);
   console.log('───────────────────────────────────────────────────────────');
   console.log('  GET  /v1/models             模型列表');

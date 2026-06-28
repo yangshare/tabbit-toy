@@ -135,6 +135,7 @@ curl http://localhost:8787/v1/chat/completions ^
 | `TABBIT_SIGN_KEY` | ❌ 否 | 自动拉取 | HMAC 签名 key |
 | `PORT` | ❌ 否 | `8787` | 服务端口 |
 | `API_KEY` | ❌ 否 | 空(不校验) | 代理鉴权 key |
+| `HTTPS_PROXY` | ❌ 否 | 空(直连) | 出站代理,访问 web.tabbit.ai 用。被封地区直连会拿到 403,填一个非封锁地区的出口(如 `http://10.2.3.3:7897`) |
 
 ## 项目结构
 

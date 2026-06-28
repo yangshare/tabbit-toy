@@ -11,6 +11,9 @@ services:
       - TABBIT_SIGN_KEY=${TABBIT_SIGN_KEY:-}
       - PORT=8787
       - API_KEY=${API_KEY:-}
+      # 出站代理：访问 web.tabbit.ai 用（解决地域封锁 403）。留空则直连。
+      # 形如 http://10.2.3.3:7897 或 https://user:pass@host:port
+      - HTTPS_PROXY=${HTTPS_PROXY:-}
     healthcheck:
       test: ["CMD", "wget", "-q", "--spider", "http://localhost:8787/healthz"]
       interval: 30s

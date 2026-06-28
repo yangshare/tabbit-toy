@@ -13,6 +13,7 @@ import { randomUUID } from 'node:crypto';
 import {
   DEFAULT_SIGN_KEY, sha256Hex, signHeaders, baseHeaders, parseSSE, fetchSessionList,
 } from './lib/tabbit.mjs';
+import { setupProxy } from '../src/proxy.mjs';
 
 // ─── 配置加载 ──────────────────────────────────────────────
 function loadEnv() {
@@ -30,6 +31,9 @@ const ENV = loadEnv();
 const COOKIE = ENV.TABBIT_COOKIE || process.env.TABBIT_COOKIE;
 const VERSION = ENV.TABBIT_VERSION || process.env.TABBIT_VERSION || '1.1.39.0';
 const TEST_MODEL = ENV.TABBIT_TEST_MODEL || process.env.TABBIT_TEST_MODEL || '';
+// 出站代理（解决 Tabbit 地域封锁 403），读 HTTPS_PROXY / TABBIT_PROXY
+const PROXY = ENV.HTTPS_PROXY || ENV.TABBIT_PROXY || process.env.HTTPS_PROXY || process.env.TABBIT_PROXY || '';
+const PROXY_ON = setupProxy(PROXY);
 const IS_PRO = !process.argv.includes('--no-pro');
 const ONLY_STEP = (process.argv.find(a => a.startsWith('--step=')) || '').split('=')[1] || null;
 
@@ -44,6 +48,7 @@ if (!COOKIE) {
 console.log('═══════════════════════════════════════════════════════════');
 console.log(' Tabbit2API · P0 探测');
 console.log(`  版本: ${VERSION}  |  Pro标记位: ${IS_PRO ? '1 (伪装Pro)' : '0 (对比)'}  |  步骤: ${ONLY_STEP || 'all'}`);
+console.log(`  代理: ${PROXY_ON ? PROXY : '未启用（直连，可能被地域封锁）'}`);
 console.log('═══════════════════════════════════════════════════════════\n');
 
 // 进程内 key 缓存

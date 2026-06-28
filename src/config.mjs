@@ -26,6 +26,10 @@ export const config = {
   port: Number(ENV.PORT || process.env.PORT || 8787),
   // 可选：保护代理端点的 API Key（客户端用 Authorization: Bearer <KEY>）
   apiKey: ENV.API_KEY || process.env.API_KEY || '',
+  // 可选：出站网络代理（访问 web.tabbit.ai 用，解决地域封锁 403）
+  // 形如 http://127.0.0.1:7897 或 https://user:pass@host:port
+  // 留空则直连。Tabbit 会按出口 IP 判定地区，被拦时会返回 403 "Service Unavailable in Your Region"
+  proxy: ENV.HTTPS_PROXY || ENV.TABBIT_PROXY || process.env.HTTPS_PROXY || process.env.TABBIT_PROXY || '',
 };
 
 if (!config.cookie) {
