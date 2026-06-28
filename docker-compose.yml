@@ -1,0 +1,19 @@
+services:
+  tabbit2api:
+    build: .
+    container_name: tabbit2api
+    restart: unless-stopped
+    ports:
+      - "${PORT:-8787}:8787"
+    environment:
+      - TABBIT_COOKIE=${TABBIT_COOKIE}
+      - TABBIT_VERSION=${TABBIT_VERSION:-1.1.39(10101039)}
+      - TABBIT_SIGN_KEY=${TABBIT_SIGN_KEY:-}
+      - PORT=8787
+      - API_KEY=${API_KEY:-}
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8787/healthz"]
+      interval: 5m
+      timeout: 10s
+      retries: 3
+      start_period: 10s

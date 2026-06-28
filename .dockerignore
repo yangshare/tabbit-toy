@@ -1,0 +1,11 @@
+node_modules/
+.env
+.git/
+.idea/
+.claude/
+.codegraph/
+docs/
+logs/
+*.log
+cookies/
+_server.log
